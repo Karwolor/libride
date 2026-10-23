@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function DriverDashboard() {
   const [isOnline, setIsOnline] = useState(false);
@@ -67,98 +68,112 @@ export default function DriverDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <a href="/" className="text-2xl font-bold text-green-600">NegoRide</a>
-            <span className="text-sm text-gray-500">Driver Dashboard</span>
+            <a href="/" className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-xl">L</span>
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">LibRide</span>
+            </a>
+            <ThemeToggle />
           </div>
         </div>
       </nav>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Welcome, Driver</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Driver Dashboard</h1>
+            <p className="text-gray-600 dark:text-gray-400">Manage your rides and earnings</p>
+          </div>
           <button
             onClick={() => setIsOnline(!isOnline)}
-            className={`px-6 py-3 rounded-lg font-semibold ${isOnline ? 'bg-green-600 text-white' : 'bg-gray-300 text-gray-700'}`}
+            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg ${
+              isOnline
+                ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            }`}
           >
             {isOnline ? '🟢 Online' : '⚫ Go Online'}
           </button>
         </div>
 
         {!isOnline ? (
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-            <div className="text-6xl mb-4">🚗</div>
-            <h2 className="text-2xl font-bold mb-4">Driver Dashboard</h2>
-            <p className="text-gray-600 mb-6">
-              This is the driver dashboard. In production, you'll need to sign up and be verified first.
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12 text-center transition-colors duration-300">
+            <div className="text-7xl mb-6">🚗</div>
+            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Go Online to Start Earning</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto">
+              When you're online, you'll receive ride and delivery requests from nearby passengers.
             </p>
             <div className="space-y-4">
               <button
                 onClick={() => setIsOnline(true)}
-                className="w-full bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Go Online Now
               </button>
               <a
                 href="/driver-signup"
-                className="block w-full border-2 border-green-600 text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition"
+                className="block w-full border-2 border-green-600 text-green-600 dark:text-green-400 dark:border-green-400 px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300"
               >
                 Sign Up as New Driver
               </a>
             </div>
           </div>
         ) : (
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">🚗 Ride Requests</h2>
+          <div className="space-y-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-colors duration-300">
+              <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white flex items-center">
+                <span className="mr-2">🚗</span> Ride Requests
+              </h2>
               <div className="space-y-4">
                 {rideRequests.map((request) => (
-                  <div key={request.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-3">
+                  <div key={request.id} className="border-2 border-gray-200 dark:border-gray-600 rounded-xl p-5 hover:border-green-500 dark:hover:border-green-400 transition-all duration-300">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
-                        <p className="font-semibold">{request.passenger}</p>
-                        <p className="text-sm text-gray-600">
+                        <p className="font-bold text-lg text-gray-900 dark:text-white">{request.passenger}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           {request.pickup} → {request.destination}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-500 dark:text-gray-500">
                           {request.distance} • {request.service === 'car' ? '🚗 Car' : '🏍️ Motorcycle'}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-green-600">
+                        <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                           {request.offer} {request.currency}
                         </p>
-                        <p className="text-sm text-gray-500">Passenger offer</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Passenger offer</p>
                       </div>
                     </div>
                     <div className="flex space-x-2">
-                      <button className="flex-1 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+                      <button className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-md">
                         Accept
                       </button>
                       <button
                         onClick={() => setSelectedRequest(request.id)}
-                        className="flex-1 border-2 border-green-600 text-green-600 py-2 rounded-lg font-semibold hover:bg-green-50 transition"
+                        className="flex-1 border-2 border-green-600 text-green-600 dark:text-green-400 dark:border-green-400 py-3 rounded-xl font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300"
                       >
                         Counter-Offer
                       </button>
-                      <button className="px-4 border-2 border-gray-300 text-gray-600 py-2 rounded-lg hover:bg-gray-50 transition">
+                      <button className="px-4 border-2 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300">
                         Decline
                       </button>
                     </div>
                     {selectedRequest === request.id && (
-                      <div className="mt-4 pt-4 border-t border-gray-200">
+                      <div className="mt-4 pt-4 border-t-2 border-gray-200 dark:border-gray-600">
                         <div className="flex space-x-2">
                           <input
                             type="number"
                             value={counterOffer}
                             onChange={(e) => setCounterOffer(e.target.value)}
                             placeholder="Your price"
-                            className="flex-1 p-2 border border-gray-300 rounded-lg"
+                            className="flex-1 p-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors"
                           />
-                          <button className="bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-orange-700 transition">
+                          <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-md">
                             Send Offer
                           </button>
                         </div>
@@ -169,39 +184,41 @@ export default function DriverDashboard() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4">📦 Delivery Requests</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-colors duration-300">
+              <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white flex items-center">
+                <span className="mr-2">📦</span> Delivery Requests
+              </h2>
               <div className="space-y-4">
                 {deliveryRequests.map((request) => (
-                  <div key={request.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-3">
+                  <div key={request.id} className="border-2 border-gray-200 dark:border-gray-600 rounded-xl p-5 hover:border-green-500 dark:hover:border-green-400 transition-all duration-300">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
-                        <p className="font-semibold">{request.sender}</p>
-                        <p className="text-sm text-gray-600">
+                        <p className="font-bold text-lg text-gray-900 dark:text-white">{request.sender}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           {request.pickup} → {request.destination}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-500 dark:text-gray-500">
                           {request.weight} • {request.type === 'courier' ? '📦 Courier' : '🚚 Freight'}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-green-600">
+                        <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                           {request.offer} {request.currency}
                         </p>
-                        <p className="text-sm text-gray-500">Sender offer</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Sender offer</p>
                       </div>
                     </div>
                     <div className="flex space-x-2">
-                      <button className="flex-1 bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+                      <button className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-md">
                         Accept
                       </button>
                       <button
                         onClick={() => setSelectedRequest(request.id)}
-                        className="flex-1 border-2 border-green-600 text-green-600 py-2 rounded-lg font-semibold hover:bg-green-50 transition"
+                        className="flex-1 border-2 border-green-600 text-green-600 dark:text-green-400 dark:border-green-400 py-3 rounded-xl font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300"
                       >
                         Counter-Offer
                       </button>
-                      <button className="px-4 border-2 border-gray-300 text-gray-600 py-2 rounded-lg hover:bg-gray-50 transition">
+                      <button className="px-4 border-2 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300">
                         Decline
                       </button>
                     </div>
@@ -210,13 +227,13 @@ export default function DriverDashboard() {
               </div>
             </div>
 
-            <div className="bg-blue-50 rounded-xl p-6">
-              <h3 className="font-semibold mb-2">💡 Tips for More Offers</h3>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Keep your profile complete and updated</li>
-                <li>• Maintain a high rating by providing excellent service</li>
-                <li>• Respond quickly to requests</li>
-                <li>• Make reasonable counter-offers that reflect market rates</li>
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+              <h3 className="font-bold mb-3 text-gray-900 dark:text-white">💡 Tips for More Offers</h3>
+              <ul className="text-sm space-y-2 text-gray-700 dark:text-gray-300">
+                <li className="flex items-start"><span className="mr-2">•</span> Keep your profile complete and updated</li>
+                <li className="flex items-start"><span className="mr-2">•</span> Maintain a high rating by providing excellent service</li>
+                <li className="flex items-start"><span className="mr-2">•</span> Respond quickly to requests</li>
+                <li className="flex items-start"><span className="mr-2">•</span> Make reasonable counter-offers that reflect market rates</li>
               </ul>
             </div>
           </div>
