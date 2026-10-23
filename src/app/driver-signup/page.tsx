@@ -18,9 +18,9 @@ export default function DriverSignup() {
     idType: 'national_id',
     idNumber: '',
     // In production, these would be file uploads
-    idPhoto: null,
-    licensePhoto: null,
-    vehiclePhoto: null,
+    idPhoto: undefined as File | undefined,
+    licensePhoto: undefined as File | undefined,
+    vehiclePhoto: undefined as File | undefined,
     // Step 4: Agreement
     agreedToTerms: false,
   });
