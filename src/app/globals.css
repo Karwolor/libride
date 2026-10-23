@@ -24,6 +24,12 @@ body {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
+/* Dark mode styles - Tailwind will handle this automatically */
+html.dark body {
+  background: #111827;
+  color: #f9fafb;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
